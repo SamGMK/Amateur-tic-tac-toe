@@ -1,14 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-contract TicTacToe {
+contract Amateurtictactoe {
 
 uint8[9] boardPositions = [1,2,3,4,5,6,7,8,9];
 
-
-function newGame() external returns(bool NewGame) {
-
-}
 
 
 function makeMove(uint8 _position) public {
@@ -17,7 +13,6 @@ function makeMove(uint8 _position) public {
     
 }
 
-
 function checkTurn(address _player) internal returns(bool) {
    if(player1Plays == player2Plays)
 }
@@ -25,6 +20,9 @@ function checkTurn(address _player) internal returns(bool) {
 function positionStatus(uint8 _position) internal returns(bool) {
 
 }
+
+
+
 
 
 
