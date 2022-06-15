@@ -3,27 +3,31 @@ pragma solidity ^0.8.13;
 
 contract Amateurtictactoe {
 
+//stores the board positions. 1 corresponds to the first square in the 3 by 3 board,
+//2 corresponds to the seconds square in the 3 by 3 board etc.
 uint8[9] boardPositions = [1,2,3,4,5,6,7,8,9];
 
-struct Players{
-    struct PlayerOne{
-        address playerOne;
-        mapping(address => uint8)_PlayerOneNumberOfPlays;
-    }
-    struct PlayerTwo{
-        address playerTwo;
-        mapping(address => uint8)_PlayerTwoNumberOfPlays;
-    }
+//stores the player addresses
+address[2] public playerIndex;
+
+address public playerOne = playerIndex[0];
+address public playerTwo = playerIndex[1];
+
+//Stores number of plays per player to ensure turns
+mapping(address => uint8) public _numberOfPlays;
+
+constructor(address _playerOne, address _playerTwo) payable {
+
 }
 
-function makeMove(uint8 _move) public {
+ function makeMove(uint8 _move) public {
     require(checkTurn(msg.sender) == true, "Not your turn");
     require(positionStatus(_move) == false, "Positon Not Valid");
     
 }
 
 function checkTurn(address _player) internal returns(bool) {
-   
+    if()
 }
 
 function positionStatus(uint8 _movePosition) internal returns(bool) {
