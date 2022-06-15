@@ -5,19 +5,28 @@ contract Amateurtictactoe {
 
 uint8[9] boardPositions = [1,2,3,4,5,6,7,8,9];
 
+struct Players{
+    struct PlayerOne{
+        address playerOne;
+        mapping(address => uint8)_PlayerOneNumberOfPlays;
+    }
+    struct PlayerTwo{
+        address playerTwo;
+        mapping(address => uint8)_PlayerTwoNumberOfPlays;
+    }
+}
 
-
-function makeMove(uint8 _position) public {
+function makeMove(uint8 _move) public {
     require(checkTurn(msg.sender) == true, "Not your turn");
-    require(positionStatus(_position) == false, "Positon Not Valid");
+    require(positionStatus(_move) == false, "Positon Not Valid");
     
 }
 
 function checkTurn(address _player) internal returns(bool) {
-   if(player1Plays == player2Plays)
+   
 }
 
-function positionStatus(uint8 _position) internal returns(bool) {
+function positionStatus(uint8 _movePosition) internal returns(bool) {
 
 }
 
