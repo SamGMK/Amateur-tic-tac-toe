@@ -5,7 +5,6 @@ contract TicTacToe {
 
 uint8[9] boardPositions = [1,2,3,4,5,6,7,8,9];
 
-//Hi baby Mahak
 
 function newGame() external returns(bool NewGame) {
 
