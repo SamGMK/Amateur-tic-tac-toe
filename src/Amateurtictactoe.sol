@@ -14,9 +14,10 @@ address public playerOne = playerIndex[0];
 address public playerTwo = playerIndex[1];
 
 //Stores number of plays per player to ensure turns
+//NBBB: FIND A WAY TO UPDATE THIS MAPPING AFTER EVERY PLAY
 mapping(address => uint8) public _numberOfPlays;
 //stores the number if the position for if the move has been made or not(i.e 1 equals move made, 0 equals move is valid)
-mapping(uint8 => uint8[]) public _isPositionOpen;
+mapping(uint8 => uint8) public _isPositionOpen;
 
 constructor(address _playerOne, address _playerTwo) payable {
     playerOne = _playerOne;
@@ -28,9 +29,9 @@ modifier onlyPlayers(){
     _;
 }
 
-function makeMove(uint8 _move, uint8 _moveIndex) onlyPlayers public {
+function makeMove(uint8 _move) onlyPlayers public {
     require(checkTurn(msg.sender) == true, "Not your turn");
-    require(positionStatus(_move, _moveIndex) == true, "Positon Not Valid");
+    require(positionStatus(_move) == true, "Positon Not Valid");
     
 }
 
@@ -41,9 +42,9 @@ function checkTurn(address _nextMovePlayer) internal view returns(bool) {
 
 }
 
-function positionStatus(uint8 _movePosition, uint8 _movePositionIndex) internal  returns(bool) {
-    if(_isPositionOpen[_movePosition][_movePositionIndex] == 1) {
-       _isPositionOpen[_movePosition][_movePositionIndex] == 0;
+function positionStatus(uint8 _move) internal returns(bool) {
+    if(_isPositionOpen[_move] == 1) {
+     _isPositionOpen[_move] == 0;
         return false;
     } else{return true;}
 
