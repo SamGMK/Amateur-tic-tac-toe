@@ -33,7 +33,9 @@ modifier onlyPlayers(){
 }
 
 function checkTurn(address _nextMovePlayer) internal view returns(bool) {
-   (playerOne == _nextMovePlayer && _numberOfPlays[_nextMovePlayer] == _numberOfPlays[playerTwo]) ? true : false;
+   if (playerOne == _nextMovePlayer && _numberOfPlays[_nextMovePlayer] == _numberOfPlays[playerTwo]) {
+    return true;
+   } else{return false;}
 
 }
 
