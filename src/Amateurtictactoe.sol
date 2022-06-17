@@ -79,10 +79,13 @@ function positionStatus(uint8 _move) internal returns(bool) {
     } else{return false;}
 }
 
-function checkWinner(uint8[5] storage _playersCombos)internal pure returns(bool) {
+function checkWinner(uint8[5] storage _playersCombos)internal view returns(bool) {
 //if a winner is found, then self destruct and print Game Over
 //iterate over the elements of each _winCombos and match with elements of playerMoves
-if(tx.origin == playerOne)   //Zackyyyyyyyyyyyyy
+    if(tx.origin == playerOne) {
+        
+
+    }
     
 }
 
