@@ -18,6 +18,8 @@ address public playerTwo = playerIndex[1];
 
 uint8[5] public playerOneMoves;
 uint8[5] public playerTwoMoves;
+uint8 public ptr1 = 0;
+uint8 public ptr2 = 0;
 
 //Stores number of plays per player to ensure turns
 //NBBB: FIND A WAY TO UPDATE THIS MAPPING AFTER EVERY PLAY
@@ -43,9 +45,15 @@ function makeMove(uint8 _move) onlyPlayers public {
     require(positionStatus(_move) == true, "Position Not Valid");
     
     if(msg.sender == playerOne) {
-        playerOneMoves.push(_move);
-
-    }
+       playerOneMoves[ptr1] = _move;
+       ptr1++;
+       checkWinner(playerOneMoves);
+     } else{
+        playerTwoMoves[ptr2] = _move;
+        ptr2++;
+        checkWinner(playerTwoMoves);
+     }
+     
 
 
     
@@ -65,7 +73,7 @@ function positionStatus(uint8 _move) internal returns(bool) {
     } else{return false;}
 }
 
-function checkWinner(uint8[] calldata _playersCombos)internal returns(bool) {
+function checkWinner(uint8[5] storage _playersCombos)internal returns(bool) {
     _winCombos[0] = [1,2,3];
     _winCombos[1] = [4,5,6];
     _winCombos[2] = [7,8,9];
