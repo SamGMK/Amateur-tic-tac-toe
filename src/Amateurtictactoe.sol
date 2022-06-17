@@ -63,10 +63,6 @@ function makeMove(uint8 _move) onlyPlayers public {
         ptr2++;
         checkWinner(playerTwoMoves);
      }
-     
-
-
-    
 }
 
 function checkTurn(address _nextMovePlayer) internal view returns(bool) {
@@ -85,12 +81,8 @@ function positionStatus(uint8 _move) internal returns(bool) {
 
 function checkWinner(uint8[5] storage _playersCombos)internal pure returns(bool) {
 //if a winner is found, then self destruct and print Game Over
-    for(uint i = 0; i < 8; ++i){
-        if(_winCombos[i] == playerOneMoves){
-
-        }
-
-    }
+//iterate over the elements of each _winCombos and match with elements of playerMoves
+if(tx.origin == playerOne)   //Zackyyyyyyyyyyyyy
     
 }
 
