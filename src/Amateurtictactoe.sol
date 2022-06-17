@@ -31,7 +31,8 @@ modifier onlyPlayers(){
 
 function makeMove(uint8 _move) onlyPlayers public {
     require(checkTurn(msg.sender) == true, "Not your turn");
-    require(positionStatus(_move) == true, "Positon Not Valid");
+    require(positionStatus(_move) == true, "Position Not Valid");
+
     
 }
 
@@ -43,10 +44,10 @@ function checkTurn(address _nextMovePlayer) internal view returns(bool) {
 }
 
 function positionStatus(uint8 _move) internal returns(bool) {
-    if(_isPositionOpen[_move] == 1) {
-     _isPositionOpen[_move] == 0;
-        return false;
-    } else{return true;}
+    if(_isPositionOpen[_move] == 0) {
+     _isPositionOpen[_move] == 1;
+        return true;
+    } else{return false;}
 
 }
 
