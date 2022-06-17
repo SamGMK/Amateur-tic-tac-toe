@@ -10,7 +10,7 @@ uint[] public boardNumber;
 function newGame(address _playerOne, address _playerTwo) external returns(uint256 _boardNumber) {
     _boardNumber = boardNumber.length + 1;
     boardNumber.push(_boardNumber);
-    address newGame = new Amateurticktacktoe(address(uint160(_boardNumber)));
+   Amateurtictactoe _newGame = new Amateurtictactoe(_playerOne, _playerOne);(address(uint160(_boardNumber)));
 
 
 }
