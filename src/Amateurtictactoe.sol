@@ -88,7 +88,30 @@ function positionStatus(uint8 _move) internal returns(bool) {
 
 function checkWinner()internal view returns(bool) {
 //if a winner is found, then self destruct and print Game Over
-if
+if(boardPositions[0] == boardPositions[1] && boardPositions[0] == boardPositions[2]) {
+    return boardPositions[0];
+} 
+if(boardPositions[3] == boardPositions[4] && boardPositions[3] == boardPositions[5]) {
+    return boardPositions[3];
+} 
+if(boardPositions[6] == boardPositions[7] && boardPositions[6] == boardPositions[8]) {
+    return boardPositions[6];
+} 
+if(boardPositions[0] == boardPositions[3] && boardPositions[0] == boardPositions[6]) {
+    return boardPositions[0];
+} 
+if(boardPositions[1] == boardPositions[4] && boardPositions[1] == boardPositions[7]) {
+    return boardPositions[1];
+} 
+if(boardPositions[2] == boardPositions[5] && boardPositions[2] == boardPositions[8]) {
+    return boardPositions[2];
+} 
+if(boardPositions[0] == boardPositions[4] && boardPositions[0] == boardPositions[8]) {
+    return boardPositions[0];
+} 
+if(boardPositions[2] == boardPositions[4] && boardPositions[2] == boardPositions[6]) {
+    return boardPositions[2];
+} 
     
 }
 
