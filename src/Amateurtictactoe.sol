@@ -5,7 +5,8 @@ contract Amateurtictactoe {
 
 //stores the board positions. 1 corresponds to the first square in the 3 by 3 board,
 //2 corresponds to the seconds square in the 3 by 3 board etc.
-uint8[9] public boardPositions = [1,2,3,4,5,6,7,8,9];
+uint8[9] public boardPositions;
+
 //stores all the possible win combinations
 mapping(uint8 => uint8[8]) public _winCombos;
     
@@ -15,10 +16,13 @@ address[2] public playerIndex;
 address public playerOne = playerIndex[0];
 address public playerTwo = playerIndex[1];
 
-uint8[5] public playerOneMoves;
-uint8[5] public playerTwoMoves;
-uint8 public ptr1 = 0;
-uint8 public ptr2 = 0;
+//checks if the board position is empty or occupied
+//0 if empty and 1 if occupied
+mapping(uint8 => uint8) public _positionChecker;
+
+enum AllowedPlays{X, O}
+AllowedPlays allowedPlays;
+
 
 //Stores number of plays per player to ensure turns
 //NBBB: FIND A WAY TO UPDATE THIS MAPPING AFTER EVERY PLAY
@@ -33,16 +37,6 @@ constructor(address _playerOne, address _playerTwo) payable {
     playerOne = _playerOne;
     playerTwo = _playerTwo;
     
-    _winCombos[0] = [1,2,3];
-    _winCombos[1] = [4,5,6];
-    _winCombos[2] = [7,8,9];
-    _winCombos[3] = [3,5,7];
-    _winCombos[4] = [1,4,7];
-    _winCombos[5] = [2,5,8];
-    _winCombos[6] = [3,6,9];
-    _winCombos[7] = [1,5,9];
-    
-
 }
 
 modifier onlyPlayers(){
@@ -50,19 +44,32 @@ modifier onlyPlayers(){
     _;
 }
 
-function makeMove(uint8 _move) onlyPlayers public {
+modifier onlyEmptyPosition(uint8 _move){
+    require(_isPositionOpen[_move] == 0, "Move not Valid");
+    _;
+}
+
+function makeMove(uint8 _move) onlyPlayers onlyEmptyPosition(_move) public {
     require(checkTurn(msg.sender) == true, "Not your turn");
     require(positionStatus(_move) == true, "Position Not Valid");
-    
+    require(_move >= 0 && _move <= 8, "Move Not Valid");
+
+    //update the position to occupied 
+    _isPositionOpen[_move] = 1;
+
+    //assigning its value depending on user
+    //If playerOne then assign X. If playerTwo then assing O.
     if(msg.sender == playerOne) {
-       playerOneMoves[ptr1] = _move;
-       ptr1++;
-       checkWinner(playerOneMoves);
-     } else{
-        playerTwoMoves[ptr2] = _move;
-        ptr2++;
-        checkWinner(playerTwoMoves);
-     }
+        boardPositions[_move] = uint8(allowedPlays.X);
+        checkWinner();
+
+    } else{
+        boardPositions[_move] = uint8(allowedPlays.O);
+        checkWinner();
+
+    }
+
+    
 }
 
 function checkTurn(address _nextMovePlayer) internal view returns(bool) {
@@ -75,18 +82,13 @@ function checkTurn(address _nextMovePlayer) internal view returns(bool) {
 function positionStatus(uint8 _move) internal returns(bool) {
     if(_isPositionOpen[_move] == 0) {
      _isPositionOpen[_move] == 1;
-        return true;
+       return true;
     } else{return false;}
 }
 
-function checkWinner(uint8[5] storage _playersCombos)internal view returns(bool) {
+function checkWinner()internal view returns(bool) {
 //if a winner is found, then self destruct and print Game Over
-//iterate over the elements of each _winCombos and match with elements of playerMoves
-//Use bit operations and masking to match the player inputs and the winCombos
-    if(tx.origin == playerOne) {
-
-
-    }
+if
     
 }
 
