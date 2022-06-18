@@ -120,28 +120,4 @@ if(boardPositions[2] == boardPositions[4] && boardPositions[2] == boardPositions
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
