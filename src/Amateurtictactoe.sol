@@ -6,6 +6,8 @@ contract Amateurtictactoe {
 //stores the board positions. 1 corresponds to the first square in the 3 by 3 board,
 //2 corresponds to the seconds square in the 3 by 3 board etc.
 uint8[9] public boardPositions;
+//Ensures first player is playerOne
+uint8 public makeMoveCounter = 0;
 
     
 //stores the player addresses
@@ -14,19 +16,13 @@ address[2] public playerIndex;
 address public playerOne = playerIndex[0];
 address public playerTwo = playerIndex[1];
 
-//checks if the board position is empty or occupied
-//0 if empty and 1 if occupied
-mapping(uint8 => uint8) public _positionChecker;
-
 enum AllowedPlays{X, O}
-AllowedPlays allowedPlays;
-
 
 //Stores number of plays per player to ensure turns
 //NBBB: FIND A WAY TO UPDATE THIS MAPPING AFTER EVERY PLAY
 mapping(address => uint8) public _numberOfPlays;
 //stores the number if the position for if the move has been made or not(i.e 1 equals move made, 0 equals move is valid)
-mapping(uint8 => uint8) public _isPositionOpen;
+mapping(uint8 => uint8) public _isPositionOccupied;
 
 //stores the possible win combos
 
@@ -43,22 +39,30 @@ modifier onlyPlayers(){
 }
 
 modifier onlyEmptyPosition(uint8 _move){
-    require(_isPositionOpen[_move] == 0, "Move not Valid");
+    require(_isPositionOccupied[_move] == 0, "Move not Valid");
     _;
 }
 
-function makeMove(uint8 _move) onlyPlayers onlyEmptyPosition(_move) public {
+modifier onlyPlayerOneStarts(){
+    if(makeMoveCounter == 0){
+        require(msg.sender == playerOne, "Not Player One");
+    }
+    _;
+}
+
+function makeMove(uint8 _move) onlyPlayers onlyPlayerOneStarts onlyEmptyPosition(_move) public {
     require(checkTurn(msg.sender) == true, "Not your turn");
-    require(positionStatus(_move) == true, "Position Not Valid");
     require(_move >= 0 && _move <= 8, "Move Not Valid");
+    makeMoveCounter++;
 
     //update the position to occupied 
-    _isPositionOpen[_move] = 1;
+    _isPositionOccupied[_move] = 1;
 
     //assigning its value depending on user
     //If playerOne then assign X. If playerTwo then assing O.
     if(msg.sender == playerOne) {
         boardPositions[_move] = uint8(AllowedPlays.X);
+        _numberOfPlays[playerOne]++;
 
         if(checkWinner() == uint8(AllowedPlays.X)) {
             selfdestruct(payable(playerOne));
@@ -66,6 +70,7 @@ function makeMove(uint8 _move) onlyPlayers onlyEmptyPosition(_move) public {
 
     } else{
         boardPositions[_move] = uint8(AllowedPlays.O);
+        _numberOfPlays[playerTwo]++;
         if(checkWinner() == uint8(AllowedPlays.O)) {
             selfdestruct(payable(playerTwo));
             }
@@ -78,15 +83,11 @@ function makeMove(uint8 _move) onlyPlayers onlyEmptyPosition(_move) public {
 function checkTurn(address _nextMovePlayer) internal view returns(bool) {
     if (playerOne == _nextMovePlayer && _numberOfPlays[_nextMovePlayer] == _numberOfPlays[playerTwo]) {
          return true;
-       } else{return false;}
+       } else if (playerTwo == _nextMovePlayer && _numberOfPlays[_nextMovePlayer] < _numberOfPlays[playerOne]) {
+         return true;
+       } 
+       else{return false;}
 
-}
-
-function positionStatus(uint8 _move) internal view returns(bool) {
-    if(_isPositionOpen[_move] == 0) {
-     _isPositionOpen[_move] == 1;
-       return true;
-    } else{return false;}
 }
 
 function checkWinner()internal view returns(uint8) {
