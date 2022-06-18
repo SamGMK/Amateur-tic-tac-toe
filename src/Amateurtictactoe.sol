@@ -7,8 +7,6 @@ contract Amateurtictactoe {
 //2 corresponds to the seconds square in the 3 by 3 board etc.
 uint8[9] public boardPositions;
 
-//stores all the possible win combinations
-mapping(uint8 => uint8[8]) public _winCombos;
     
 //stores the player addresses
 address[2] public playerIndex;
