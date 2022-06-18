@@ -5,13 +5,14 @@ import {Amateurtictactoe} from "./Amateurtictactoe.sol";
 
 contract AmateurTictactoeFactory{
 
-Amateurtictactoe amateurtictactoe;
+Amateurtictactoe[] private amateurtictactoe;
 
-function newGame(address _playerOne, address _playerTwo) external returns(address gameInstance) {
+function newGame(address _playerOne, address _playerTwo) external {
      require(_playerOne != _playerTwo, "Invalid Players");
      require(_playerOne != address(0) && _playerTwo != address(0), "Invalid Players");
      
-     amateurtictactoe = new Amateurtictactoe(_playerOne, _playerTwo);
-
+     Amateurtictactoe _amateurtictactoe = new Amateurtictactoe(_playerOne, _playerTwo);
+     amateurtictactoe.push(_amateurtictactoe);
 }
+
 }
