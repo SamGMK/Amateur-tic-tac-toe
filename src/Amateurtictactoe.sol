@@ -60,12 +60,17 @@ function makeMove(uint8 _move) onlyPlayers onlyEmptyPosition(_move) public {
     //assigning its value depending on user
     //If playerOne then assign X. If playerTwo then assing O.
     if(msg.sender == playerOne) {
-        boardPositions[_move] = uint8(allowedPlays.X);
-        checkWinner();
+        boardPositions[_move] = uint8(AllowedPlays.X);
+
+        if(checkWinner() == uint8(AllowedPlays.X)) {
+            selfdestruct(payable(playerOne));
+            }
 
     } else{
-        boardPositions[_move] = uint8(allowedPlays.O);
-        checkWinner();
+        boardPositions[_move] = uint8(AllowedPlays.O);
+        if(checkWinner() == uint8(AllowedPlays.O)) {
+            selfdestruct(payable(playerTwo));
+            }
 
     }
 
@@ -79,14 +84,14 @@ function checkTurn(address _nextMovePlayer) internal view returns(bool) {
 
 }
 
-function positionStatus(uint8 _move) internal returns(bool) {
+function positionStatus(uint8 _move) internal view returns(bool) {
     if(_isPositionOpen[_move] == 0) {
      _isPositionOpen[_move] == 1;
        return true;
     } else{return false;}
 }
 
-function checkWinner()internal view returns(bool) {
+function checkWinner()internal view returns(uint8) {
 //if a winner is found, then self destruct and print Game Over
 if(boardPositions[0] == boardPositions[1] && boardPositions[0] == boardPositions[2]) {
     return boardPositions[0];
