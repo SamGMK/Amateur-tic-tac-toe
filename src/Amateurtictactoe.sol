@@ -2,6 +2,10 @@
 pragma solidity ^0.8.13;
 
 contract Amateurtictactoe {
+  /// @title An unoptimized yet functional Tic tac toe game
+  /// @author SamaterPhi7
+  /// @notice This is a Tic tac toe game
+  /// @dev this contract is unoptimized intentionally
 
 //stores the board positions. 1 corresponds to the first square in the 3 by 3 board,
 //2 corresponds to the seconds square in the 3 by 3 board etc.
@@ -23,8 +27,6 @@ enum AllowedPlays{X, O}
 mapping(address => uint8) public _numberOfPlays;
 //stores the number if the position for if the move has been made or not(i.e 1 equals move made, 0 equals move is valid)
 mapping(uint8 => uint8) public _isPositionOccupied;
-
-//stores the possible win combos
 
 
 constructor(address _playerOne, address _playerTwo) payable {
