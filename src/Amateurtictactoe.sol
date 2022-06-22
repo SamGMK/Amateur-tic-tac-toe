@@ -2,10 +2,10 @@
 pragma solidity ^0.8.13;
 
 contract Amateurtictactoe {
+
   /// @title An unoptimized yet functional Tic tac toe game
   /// @author SamaterPhi7
-  /// @notice This is a Tic tac toe game
-  /// @dev this contract is unoptimized intentionally
+  /// @dev this contract is unoptimized intentionally.
 
 //stores the board positions. 1 corresponds to the first square in the 3 by 3 board,
 //2 corresponds to the seconds square in the 3 by 3 board etc.
@@ -52,6 +52,8 @@ modifier onlyPlayerOneStarts(){
     _;
 }
 
+/// @notice called when player wants to make a move
+/// @param _move the index of the board position player wants to occupy
 function makeMove(uint8 _move) onlyPlayers onlyPlayerOneStarts onlyEmptyPosition(_move) public {
     require(checkTurn(msg.sender) == true, "Not your turn");
     require(_move >= 0 && _move <= 8, "Move Not Valid");
@@ -82,6 +84,11 @@ function makeMove(uint8 _move) onlyPlayers onlyPlayerOneStarts onlyEmptyPosition
     
 }
 
+
+/// @notice Checks if it is a players turn to play
+/// @dev if player one plays(1 move) then he can only play is player two has also played(1 move)
+/// @param _nextMovePlayer a parameter just like in doxygen (must be followed by parameter name)
+/// @return true if it is the player's turn else false.
 function checkTurn(address _nextMovePlayer) internal view returns(bool) {
     if (playerOne == _nextMovePlayer && _numberOfPlays[_nextMovePlayer] == _numberOfPlays[playerTwo]) {
          return true;
@@ -92,6 +99,12 @@ function checkTurn(address _nextMovePlayer) internal view returns(bool) {
 
 }
 
+
+// @notice Checks if any player has made three similar moves that result in a win
+/// @dev checks if the first position in a winning combination is empty, then checks
+/// if that position matches the other two in the winning combination. eg 0,1,2 check if 0 is empty,
+/// if not then match it with 1 and 2. If all three are similar then return state of position 0.
+/// @return The sign(state) of the winning combination i.e X or O.
 function checkWinner()internal view returns(uint8) {
 //if a winner is found, then self destruct and print Game Over
     if(boardPositions[0] == boardPositions[1] && boardPositions[0] == boardPositions[2]) {
